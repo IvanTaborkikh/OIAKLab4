@@ -5,15 +5,6 @@
 #include "data_gen.h"
 #include "arith_xmm.h"
 
-/*
- * Laboratorium 5 – Wektoryzacja obliczeń SIMD (XMM/SSE)
- *
- * Kompilacja BEZ optymalizacji (wymóg laboratorium):
- *   gcc -std=c11 -O0 main.c arith_xmm.c data_gen.c timer.c -o lab5 -lm
- *
- * Wynik: CSV z samymi wynikami XMM
- * Wyniki C i FPU bierzemy z lab4 i łączymy ręcznie w Excelu.
- */
 
 #define REPEATS 5
 #define N_TARGET 10000000
@@ -57,14 +48,14 @@ int main(void)
     fill_float_array(fa, N, 42u);
     fill_float_array(fb, N, 7u);
 
-    printf("op,impl,N,avg_ms\n");
+    printf("opt,op,type,impl,N,avg_ms\n");
 
     int        ops[] = {'+', '-', '*', '/'};
     const char *opn[] = {"+",  "-",  "*",  "/"};
 
     for (int i = 0; i < 4; i++) {
         double ms = bench(ops[i], fa, fb, fr, N) * 1000.0;
-        printf("%s,XMM,%zu,%.4f\n", opn[i], N, ms);
+        printf("O0,%s,float,XMM,%zu,%.4f\n", opn[i], N, ms);
         fflush(stdout);
     }
 
